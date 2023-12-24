@@ -620,8 +620,8 @@ class LSM6DSOX(object):
         self.redraw()
 
     def redraw(self):
-        self.cvs.itemconfig(self._roll,  text=f"{self._ax:.2f}G")
-        self.cvs.itemconfig(self._pitch, text=f"{self._ay:.2f}G")
+        self.cvs.itemconfig(self._roll,  text=f"{self._ax*90:.2f}°")
+        self.cvs.itemconfig(self._pitch, text=f"{self._ay*90:.2f}°")
     
     def read_accel(self):
         """Returns acceleration vector in gravity units (9.81m/s^2)."""
