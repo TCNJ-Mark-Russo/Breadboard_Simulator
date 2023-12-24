@@ -1,8 +1,8 @@
 # lsm6dsox.py
 # LMS6SOX IMU component class proxies
 # v. 0.2
-# Mark F. Russo, PhD
-# MFR 4/27/2023
+# Author: Mark F. Russo, PhD
+# Copyright (c) 2023-2024 
 
 # References
 # https://github.com/openmv/openmv/blob/master/scripts/libraries/lsm6dsox.py

@@ -1,10 +1,10 @@
 # ssd1306.py
 # SSD1306 component class proxies
 # v. 0.2
-# Mark F. Russo, PhD
-# 4/27/2023
+# Author: Mark F. Russo, PhD
+# Copyright (c) 2023-2024
 
-# References
+# Reference material
 # https://docs.micropython.org/en/latest/esp8266/tutorial/ssd1306.html
 # https://github.com/openmv/openmv/blob/master/scripts/libraries/ssd1306.py
 # https://docs.micropython.org/en/latest/library/framebuf.html
@@ -83,8 +83,8 @@ class SSD1306:
         return True
     
     # Render text at pixel row, col with val
-    def text(self, text, col, row, antialias=True):
-        msg = {'to':'oled', 'msg':'text', 'col':col, 'row':row, 'text':text}
+    def text(self, text, col, row, clr=1):
+        msg = {'to':'oled', 'msg':'text', 'col':col, 'row':row, 'text':text, 'clr':clr}
         resp = self._send(msg)
         if not resp['success']:
             raise RuntimeError(f"Command 'text' failed for OLED (SSD1306_I2C)")
@@ -95,31 +95,55 @@ class SSD1306:
         msg = {'to':'oled', 'msg':'show'}
         resp = self._send(msg)
         if not resp['success']:
-            raise RuntimeError(f"Command 'show' failed for OLED (SSD1306_I2C)")
+            raise RuntimeError(f"Command 'show' failed for OLED (SSD1306_I2C): {resp['msg']}")
         return True
 
-    # Render pixel at x, y with val
-    def pixel(self, x, y, val):
-        msg = {'to':'oled', 'msg':'pixel', 'x':x, 'y':y, 'val':val}
+    # Render pixel at x, y with clr
+    def pixel(self, x, y, clr):
+        msg = {'to':'oled', 'msg':'pixel', 'x':x, 'y':y, 'clr':clr}
         resp = self._send(msg)
         if not resp['success']:
             raise RuntimeError(f"Command 'pixel' failed for OLED (SSD1306_I2C)")
         return True
 
-    # Render rectangle at x, y of size w, h with val
-    def rect(self, x, y, w, h, val):
-        msg = {'to':'oled', 'msg':'rect', 'x':x, 'y':y, 'width':w, 'height':w, 'val':val}
+    # Render rectangle at x0, y0 to x1, y1 with clr [0, 1]
+    def rect(self, x, y, w, h, clr):
+        msg = {'to':'oled', 'msg':'rect', 'x':x, 'y':y, 'w':w, 'h':h, 'clr':clr}
         resp = self._send(msg)
         if not resp['success']:
             raise RuntimeError(f"Command 'rect' failed for OLED (SSD1306_I2C)")
         return True
 
-    # Render filled rectangle at x, y of size w, h with val
-    def fill_rect(self, x, y, w, h, val):
-        msg = {'to':'oled', 'msg':'fill_rect', 'x':x, 'y':y, 'width':w, 'height':w, 'val':val}
+    # Render filled rectangle at x0, y0 to x1, y1 with clr [0, 1]
+    def fill_rect(self, x, y, w, h, clr):
+        msg = {'to':'oled', 'msg':'fill_rect', 'x':x, 'y':y, 'w':w, 'h':h, 'clr':clr}
         resp = self._send(msg)
         if not resp['success']:
             raise RuntimeError(f"Command 'fill_rect' failed for OLED (SSD1306_I2C)")
+        return True
+    
+    # Render line from x0, y0 to x1, y1 with clr [0, 1]
+    def line(self, x0, y0, x1, y1, clr):
+        msg = {'to':'oled', 'msg':'line', 'x0':x0, 'y0':y0, 'x1':x1, 'y1':y1, 'clr':clr}
+        resp = self._send(msg)
+        if not resp['success']:
+            raise RuntimeError(f"Command 'line' failed for OLED (SSD1306_I2C)")
+        return True
+    
+    # Render horizontal line at x, y with width w and clr [0, 1]
+    def hline(self, x, y, w, clr):
+        msg = {'to':'oled', 'msg':'hline', 'x':x, 'y':y, 'w':w, 'clr':clr}
+        resp = self._send(msg)
+        if not resp['success']:
+            raise RuntimeError(f"Command 'hline' failed for OLED (SSD1306_I2C)")
+        return True
+    
+    # Render vertical line at x, y with height h and clr [0, 1]
+    def vline(self, x, y, h, clr):
+        msg = {'to':'oled', 'msg':'vline', 'x':x, 'y':y, 'h':h, 'clr':clr}
+        resp = self._send(msg)
+        if not resp['success']:
+            raise RuntimeError(f"Command 'vline' failed for OLED (SSD1306_I2C)")
         return True
     
     def scroll(self, dx, dy):
