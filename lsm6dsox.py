@@ -1,6 +1,6 @@
 # lsm6dsox.py
 # LMS6SOX IMU component class proxies
-# v. 0.2
+# v. 0.3
 # Author: Mark F. Russo, PhD
 # Copyright (c) 2023-2024 
 
@@ -39,6 +39,9 @@ class LSM6DSOX:
     def read_mlc_output(self):
         pass
     
+    def gyro(self):
+        return self.read_gyro()
+    
     def read_gyro(self):
         """Returns gyroscope vector in degrees/sec."""
         msg = {'to':'lsm6dsox', 'msg':'read_gyro'}
@@ -46,6 +49,9 @@ class LSM6DSOX:
         if not resp['success']:
             raise RuntimeError(f"Command 'read_gyro' failed for LSM6DSOX")
         return resp['msg']
+    
+    def accel(self):
+        return self.read_accel()
     
     def read_accel(self):
         """Returns acceleration vector in gravity units (9.81m/s^2)."""

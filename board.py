@@ -623,9 +623,15 @@ class LSM6DSOX(object):
         self.cvs.itemconfig(self._roll,  text=f"{self._ax*90:.2f}°")
         self.cvs.itemconfig(self._pitch, text=f"{self._ay*90:.2f}°")
     
+    def accel(self):
+        return self.read_accel()
+    
     def read_accel(self):
         """Returns acceleration vector in gravity units (9.81m/s^2)."""
         return self._ax, self._ay, self._az
+    
+    def gyro(self):
+        return self.read_gyro()
     
     def read_gyro(self):
         """Returns gyroscope vector in degrees/sec."""
@@ -649,11 +655,12 @@ class LSM6DSOX(object):
 # Communications
 def do_comms():
     # Network address on which to receive remote commands over UDP
-    addr = ('127.0.0.1', 9999)
+    ipport = ('127.0.0.1', 9999)
+    # ipport = ('159.91.184.21', 9999)
     
     # Use UDP to send messages. Avoids the complications of stream oriented TCP socket connections.
     rsock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    rsock.bind(addr)
+    rsock.bind(ipport)
     rsock.setblocking(0)
 
     # === Main loop
